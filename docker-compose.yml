@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  user:
+    image: jlesage/firefox:v23.11.3
+    restart: always
+    ports:
+      - "5800:5800"
+
+  app:
+    build: ./app
+    restart: always
+
+  mitm:
+    build: ./man_in_the_middle
+    restart: always
+    privileged: true
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv6.conf.all.forwarding=1
+      - net.ipv4.conf.all.send_redirects=0
